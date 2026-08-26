@@ -44,8 +44,15 @@ declare module "scripting" {
   export const Button: (props: any) => JSX.Element
   export const HStack: (props: any) => JSX.Element
   export const Image: (props: any) => JSX.Element
+  export const List: (props: any) => JSX.Element
+  export const NavigationStack: (props: any) => JSX.Element
+  export const Section: (props: any) => JSX.Element
   export const Text: (props: any) => JSX.Element
   export const VStack: (props: any) => JSX.Element
+  export const Navigation: {
+    present(options: { element: JSX.Element } | JSX.Element): Promise<void>
+  }
+  export function useState<T>(initial: T | (() => T)): [T, (value: T) => void]
   export const Dialog: {
     alert(options: { message: string; title?: string; buttonLabel?: string }): Promise<void>
     confirm(options: { message: string; title?: string; cancelLabel?: string; confirmLabel?: string }): Promise<boolean>

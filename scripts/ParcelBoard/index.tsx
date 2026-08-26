@@ -1,4 +1,15 @@
-import { Dialog, Script, Widget } from "scripting"
+import {
+  Button,
+  Dialog,
+  List,
+  Navigation,
+  NavigationStack,
+  Script,
+  Section,
+  Text,
+  Widget,
+  useState,
+} from "scripting"
 import { CARRIERS, getCarrier, isTrackingNumberValid } from "./domain"
 import {
   hasApiConsent,
@@ -179,48 +190,77 @@ async function refreshNow() {
   })
 }
 
-async function main() {
-  let done = false
-  while (!done) {
-    const parcels = loadParcels()
-    const choice = await Dialog.actionSheet({
-      title: `ParcelBoard · ${parcels.length} 件快递`,
-      message: "管理运单、刷新进度或预览主屏幕组件。",
-      actions: [
-        { label: "添加快递" },
-        { label: "刷新到最新（30 分钟缓存）" },
-        { label: "预览中号组件" },
-        { label: "配置快递100 API" },
-        { label: "删除快递", destructive: true },
-        { label: "完成" },
-      ],
-    })
+function App() {
+  const [parcels, setParcels] = useState<Parcel[]>(() => loadParcels())
+  const [configured, setConfigured] = useState(() => loadCredentials() != null)
+  const [status, setStatus] = useState("")
 
-    switch (choice) {
-      case 0:
-        await addParcel()
-        break
-      case 1:
-        await refreshNow()
-        break
-      case 2:
-        await Widget.preview({ family: "systemMedium" })
-        break
-      case 3:
-        await configureApi()
-        break
-      case 4:
-        await deleteParcel()
-        break
-      default:
-        done = true
-        break
+  function syncState() {
+    setParcels([...loadParcels()])
+    setConfigured(loadCredentials() != null)
+  }
+
+  async function runAction(action: () => Promise<void>) {
+    try {
+      await action()
+      syncState()
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      setStatus(`操作失败：${message}`)
+      await Dialog.alert({ title: "ParcelBoard 操作失败", message })
     }
   }
-  Script.exit()
+
+  return (
+    <NavigationStack>
+      <List navigationTitle="快递进度汇总" navigationBarTitleDisplayMode="inline">
+        <Section
+          header={<Text>当前状态</Text>}
+          footer={<Text>查询快递时会把快递公司、运单号及可选手机号发送给快递100；凭据只保存在当前脚本的私有 Storage。</Text>}
+        >
+          <Text>{configured ? "快递100 API 已配置" : "尚未配置快递100 API"}</Text>
+          <Text>{`已添加 ${parcels.length} 件快递`}</Text>
+          {status ? <Text>{status}</Text> : null}
+        </Section>
+
+        <Section header={<Text>操作</Text>}>
+          <Button title="添加快递" action={() => runAction(addParcel)} />
+          <Button
+            title="刷新到最新（30 分钟缓存）"
+            action={() => runAction(async () => {
+              setStatus("正在刷新…")
+              await refreshNow()
+              setStatus("刷新完成")
+            })}
+          />
+          <Button
+            title="预览中号组件"
+            action={() => runAction(async () => Widget.preview({ family: "systemMedium" }))}
+          />
+          <Button
+            title={configured ? "重新配置快递100 API" : "配置快递100 API"}
+            action={() => runAction(configureApi)}
+          />
+        </Section>
+
+        <Section header={<Text>快递列表</Text>}>
+          {parcels.length === 0 ? (
+            <Text>暂无快递，请先点击“添加快递”。</Text>
+          ) : (
+            parcels.map((parcel) => (
+              <Text key={parcel.id}>{`${parcel.nickname} · ${getCarrier(parcel.carrierCode).name}`}</Text>
+            ))
+          )}
+          {parcels.length > 0 ? (
+            <Button title="删除快递…" action={() => runAction(deleteParcel)} />
+          ) : null}
+        </Section>
+      </List>
+    </NavigationStack>
+  )
 }
 
-main().catch(async (error) => {
+Navigation.present({ element: <App /> }).then(() => Script.exit()).catch(async (error) => {
   const message = error instanceof Error ? error.message : String(error)
   try {
     await Dialog.alert({ title: "ParcelBoard 无法启动", message })
