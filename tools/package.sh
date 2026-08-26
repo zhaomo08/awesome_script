@@ -24,5 +24,7 @@ package_script() {
 
 package_script "ParcelBoard" "ParcelBoard" \
   -x "tests/*" "types/*" ".check-dist/*" "tsconfig.json" ".DS_Store"
+package_script "ParcelBoard App" "ParcelBoard-App" \
+  -x "tests/*" "types/*" ".check-dist/*" "tsconfig.json" ".DS_Store"
 package_script "Codex Quota Safe" "Codex-Quota-Safe" \
   -x ".DS_Store"
