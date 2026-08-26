@@ -10,6 +10,28 @@ declare const Storage: {
   remove(key: string, options?: { shared: boolean }): void
 }
 
+declare const Dialog: {
+  alert(options: { message: string; title?: string; buttonLabel?: string }): Promise<void>
+  confirm(options: { message: string; title?: string; cancelLabel?: string; confirmLabel?: string }): Promise<boolean>
+  prompt(options: {
+    title: string
+    message?: string
+    defaultValue?: string
+    obscureText?: boolean
+    selectAll?: boolean
+    placeholder?: string
+    cancelLabel?: string
+    confirmLabel?: string
+    keyboardType?: string
+  }): Promise<string | null>
+  actionSheet(options: {
+    title: string
+    message?: string
+    cancelButton?: boolean
+    actions: Array<{ label: string; destructive?: boolean }>
+  }): Promise<number | null>
+}
+
 declare const Data: {
   fromString(value: string): { toHexString(): string }
 }
@@ -53,27 +75,6 @@ declare module "scripting" {
     present(options: { element: JSX.Element } | JSX.Element): Promise<void>
   }
   export function useState<T>(initial: T | (() => T)): [T, (value: T) => void]
-  export const Dialog: {
-    alert(options: { message: string; title?: string; buttonLabel?: string }): Promise<void>
-    confirm(options: { message: string; title?: string; cancelLabel?: string; confirmLabel?: string }): Promise<boolean>
-    prompt(options: {
-      title: string
-      message?: string
-      defaultValue?: string
-      obscureText?: boolean
-      selectAll?: boolean
-      placeholder?: string
-      cancelLabel?: string
-      confirmLabel?: string
-      keyboardType?: string
-    }): Promise<string | null>
-    actionSheet(options: {
-      title: string
-      message?: string
-      cancelButton?: boolean
-      actions: Array<{ label: string; destructive?: boolean }>
-    }): Promise<number | null>
-  }
   export const Script: { exit(result?: unknown): void }
   export const Widget: {
     family: string
