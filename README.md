@@ -4,12 +4,12 @@
 
 ## 脚本目录
 
-| 脚本 | 用途 | 手机导入 |
+| 脚本 | 用途 | 导入链接 |
 | --- | --- | --- |
-| 快递进度汇总（ParcelBoard） | 汇总多件快递的承运商、状态、最新轨迹和更新时间 | [一键导入](https://scripting.fun/import_scripts?urls=%5B%22https%3A%2F%2Fgithub.com%2Fzhaomo08%2Fawesome_script%2Ftree%2Fmain%2Fscripts%2FParcelBoard%22%5D) |
-| Codex 额度安全版 | 查看 Codex 5 小时与每周额度，支持多账号和桌面组件 | [一键导入](https://scripting.fun/import_scripts?urls=%5B%22https%3A%2F%2Fgithub.com%2Fzhaomo08%2Fawesome_script%2Ftree%2Fmain%2Fscripts%2FCodex%2520Quota%2520Safe%22%5D) |
+| 快递进度汇总（ParcelBoard） | 汇总多件快递的承运商、状态、最新轨迹和更新时间 | [复制 GitHub 目录链接](https://github.com/zhaomo08/awesome_script/tree/main/scripts/ParcelBoard) |
+| Codex 额度安全版 | 查看 Codex 5 小时与每周额度，支持多账号和桌面组件 | [复制 GitHub 目录链接](https://github.com/zhaomo08/awesome_script/tree/main/scripts/Codex%20Quota%20Safe) |
 
-如果微信等内置浏览器没有拉起 Scripting，请在 Safari 中打开链接。也可以下载 [`packages`](./packages) 目录中的 `.scripting` 文件，再用 Scripting App 打开。
+在 iPhone 的 Scripting 导入页面中，粘贴表格里的 GitHub 目录链接即可导入。也可以下载 [`packages`](./packages) 目录中的 `.scripting` 文件，再用 Scripting App 打开。
 
 ## 使用前说明
 
@@ -29,4 +29,4 @@ tools/      打包工具
 
 ## Scripting App
 
-本仓库脚本用于 [Scripting App](https://scripting.fun/)。链接导入使用官方 `import_scripts` URL Scheme。
+本仓库脚本用于 [Scripting App](https://scripting.fun/)。Scripting 支持从 GitHub 仓库、仓库内的脚本目录或 ZIP 文件 URL 导入脚本。
