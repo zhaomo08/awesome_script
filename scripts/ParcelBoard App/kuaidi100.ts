@@ -34,9 +34,11 @@ export async function queryKuaidi100(
     order: "desc",
   }
   const paramText = JSON.stringify(param)
-  const sign = Crypto.md5(
-    Data.fromString(`${paramText}${credentials.key}${credentials.customer}`),
-  )
+  const signInput = Data.fromRawString(`${paramText}${credentials.key}${credentials.customer}`)
+  if (!signInput) {
+    throw new Error("无法生成快递100签名数据")
+  }
+  const sign = Crypto.md5(signInput)
     .toHexString()
     .toUpperCase()
 

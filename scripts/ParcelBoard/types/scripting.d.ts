@@ -10,34 +10,14 @@ declare const Storage: {
   remove(key: string, options?: { shared: boolean }): void
 }
 
-declare const Dialog: {
-  alert(options: { message: string; title?: string; buttonLabel?: string }): Promise<void>
-  confirm(options: { message: string; title?: string; cancelLabel?: string; confirmLabel?: string }): Promise<boolean>
-  prompt(options: {
-    title: string
-    message?: string
-    defaultValue?: string
-    obscureText?: boolean
-    selectAll?: boolean
-    placeholder?: string
-    cancelLabel?: string
-    confirmLabel?: string
-    keyboardType?: string
-  }): Promise<string | null>
-  actionSheet(options: {
-    title: string
-    message?: string
-    cancelButton?: boolean
-    actions: Array<{ label: string; destructive?: boolean }>
-  }): Promise<number | null>
-}
+type ScriptingData = { toHexString(): string }
 
 declare const Data: {
-  fromString(value: string): { toHexString(): string }
+  fromRawString(value: string, encoding?: string): ScriptingData | null
 }
 
 declare const Crypto: {
-  md5(data: ReturnType<typeof Data.fromString>): { toHexString(): string }
+  md5(data: ScriptingData): ScriptingData
 }
 
 type ScriptingResponse = {
@@ -68,17 +48,25 @@ declare module "scripting" {
   export const Image: (props: any) => JSX.Element
   export const List: (props: any) => JSX.Element
   export const NavigationStack: (props: any) => JSX.Element
+  export const Picker: (props: any) => JSX.Element
+  export const SecureField: (props: any) => JSX.Element
   export const Section: (props: any) => JSX.Element
   export const Text: (props: any) => JSX.Element
+  export const TextField: (props: any) => JSX.Element
   export const VStack: (props: any) => JSX.Element
   export const Navigation: {
     present(options: { element: JSX.Element } | JSX.Element): Promise<void>
   }
   export function useState<T>(initial: T | (() => T)): [T, (value: T) => void]
-  export const Script: { exit(result?: unknown): void }
+  export const Script: {
+    metadata: { version: string }
+    exit(result?: unknown): void
+  }
   export const Widget: {
     family: string
-    present(element: JSX.Element, reloadPolicy?: { policy: "after"; date: Date } | { policy: "atEnd" }): void
+    present(element: JSX.Element, options?: {
+      reloadPolicy?: { policy: "after"; date: Date } | { policy: "atEnd" }
+    }): void
     preview(options?: { family?: string }): Promise<void>
     reloadAll(): void
   }

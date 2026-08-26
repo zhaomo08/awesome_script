@@ -3,7 +3,7 @@ const crypto = require("node:crypto")
 
 let captured
 global.Data = {
-  fromString(value) {
+  fromRawString(value) {
     return { value }
   },
 }
@@ -71,6 +71,21 @@ async function main() {
   assert.equal(result.state, "5")
   assert.equal(result.latestMessage, "快件正在派送")
   assert.equal(result.events.length, 2)
+
+  global.Data.fromRawString = () => null
+  await assert.rejects(
+    queryKuaidi100(
+      {
+        id: "2",
+        nickname: "签名失败",
+        carrierCode: "ems",
+        trackingNumber: "EMS123456",
+        createdAt: 0,
+      },
+      { customer: "customer-demo", key: "key-demo" },
+    ),
+    /无法生成快递100签名数据/,
+  )
 
   console.log("kuaidi100 adapter tests passed")
 }

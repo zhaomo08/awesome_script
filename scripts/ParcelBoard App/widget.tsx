@@ -121,8 +121,10 @@ async function run() {
       <ParcelWidget />
     </VStack>,
     {
-    policy: "after",
-    date: new Date(Date.now() + MIN_REFRESH_INTERVAL_MS),
+      reloadPolicy: {
+        policy: "after",
+        date: new Date(Date.now() + MIN_REFRESH_INTERVAL_MS),
+      },
     },
   )
 }
