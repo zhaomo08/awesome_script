@@ -1,0 +1,29 @@
+{
+  "icon": "lock.shield.fill",
+  "name": "Codex Quota Safe",
+  "color": "rgba(18, 18, 20, 1)",
+  "entry": "index.tsx",
+  "permissions": null,
+  "runInApp": true,
+  "contributors": [],
+  "version": "1.0.0",
+  "intentInputTypes": [],
+  "localizedNames": {
+    "zh": "Codex 额度安全版",
+    "en": "Codex Quota Safe"
+  },
+  "description": "Codex quota viewer with OpenAI OAuth PKCE, local Keychain storage, reduced caching and rate-limited refresh.",
+  "remoteResource": {
+    "url": "https://github.com/zhaomo08/awesome_script/tree/main/scripts/Codex%20Quota%20Safe"
+  },
+  "author": {
+    "name": "Local Safe Build",
+    "email": null,
+    "homepage": null
+  },
+  "localizedDescriptions": {
+    "zh": "自用 Codex 额度查看器。OAuth 凭据仅存本机 Keychain，强制限制请求频率，不保存完整接口响应。",
+    "en": "Private Codex quota viewer with local Keychain credentials and rate-limited refresh."
+  },
+  "iconImage": null
+}
