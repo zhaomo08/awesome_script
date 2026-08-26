@@ -14,7 +14,8 @@
   },
   "description": "在 iPhone 主屏幕汇总多个快递的最新物流进度。",
   "remoteResource": {
-    "url": "https://github.com/zhaomo08/awesome_script/tree/main/scripts/ParcelBoard%20App"
+    "url": "https://github.com/zhaomo08/awesome_script/tree/main/scripts/ParcelBoard%20App",
+    "autoUpdateInterval": 3600
   },
   "author": {
     "name": "zhaomo08",

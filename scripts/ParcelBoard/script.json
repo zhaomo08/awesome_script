@@ -11,6 +11,7 @@
     "en": "ParcelBoard"
   },
   "remoteResource": {
-    "url": "https://github.com/zhaomo08/awesome_script/tree/main/scripts/ParcelBoard"
+    "url": "https://github.com/zhaomo08/awesome_script/tree/main/scripts/ParcelBoard",
+    "autoUpdateInterval": 3600
   }
 }
