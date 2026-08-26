@@ -220,4 +220,11 @@ async function main() {
   Script.exit()
 }
 
-main()
+main().catch(async (error) => {
+  const message = error instanceof Error ? error.message : String(error)
+  try {
+    await Dialog.alert({ title: "ParcelBoard 无法启动", message })
+  } finally {
+    Script.exit()
+  }
+})

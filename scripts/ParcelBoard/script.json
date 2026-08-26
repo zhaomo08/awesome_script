@@ -1,9 +1,10 @@
 {
   "name": "ParcelBoard",
   "entry": "index.tsx",
+  "runInApp": true,
   "icon": "shippingbox.fill",
   "color": "#FF8A3D",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "在 iPhone 主屏幕汇总多个快递的最新物流进度。",
   "localizedNames": {
     "zh": "快递进度汇总",
