@@ -1,0 +1,30 @@
+{
+  "icon": "shippingbox.fill",
+  "name": "Parcel Pickup Codes",
+  "color": "rgba(255, 138, 61, 1)",
+  "entry": "index.tsx",
+  "permissions": null,
+  "runInApp": true,
+  "contributors": [],
+  "version": "4.0.0",
+  "intentInputTypes": ["Text"],
+  "localizedNames": {
+    "zh": "快递取件码",
+    "en": "Parcel Pickup Codes"
+  },
+  "description": "通过快捷指令短信自动化提取并展示快递取件码。",
+  "remoteResource": {
+    "url": "https://github.com/zhaomo08/awesome_script/tree/main/scripts/Parcel%20Pickup%20Codes",
+    "autoUpdateInterval": 3600
+  },
+  "author": {
+    "name": "zhaomo08",
+    "email": null,
+    "homepage": "https://github.com/zhaomo08/awesome_script"
+  },
+  "localizedDescriptions": {
+    "zh": "由系统快捷指令在收到短信时传入正文，本脚本只提取并本地保存取件码。",
+    "en": "Extract pickup codes from message text passed by a Shortcuts automation and store them locally."
+  },
+  "iconImage": null
+}

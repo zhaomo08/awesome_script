@@ -22,7 +22,7 @@ package_script() {
   echo "Created packages/$output_name.scripting"
 }
 
-package_script "ParcelBoard App" "ParcelBoard-App" \
+package_script "Parcel Pickup Codes" "Parcel-Pickup-Codes" \
   -x "tests/*" "types/*" ".check-dist/*" "tsconfig.json" ".DS_Store"
 package_script "Codex Quota Safe" "Codex-Quota-Safe" \
   -x ".DS_Store"

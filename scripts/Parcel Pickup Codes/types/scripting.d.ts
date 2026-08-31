@@ -9,10 +9,6 @@ declare const Storage: {
   get<T>(key: string, options?: { shared: boolean }): T | null
 }
 
-declare const Pasteboard: {
-  getString(): Promise<string | null>
-}
-
 declare module "scripting" {
   export const Button: (props: any) => JSX.Element
   export const HStack: (props: any) => JSX.Element
@@ -22,6 +18,11 @@ declare module "scripting" {
   export const Section: (props: any) => JSX.Element
   export const Text: (props: any) => JSX.Element
   export const VStack: (props: any) => JSX.Element
+  export const Intent: {
+    shortcutParameter?: { type: string; value: unknown }
+    textsParameter?: string[]
+    text(value: string): unknown
+  }
   export const Navigation: {
     present(options: { element: JSX.Element } | JSX.Element): Promise<void>
   }
