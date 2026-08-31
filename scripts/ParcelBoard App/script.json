@@ -6,13 +6,13 @@
   "permissions": null,
   "runInApp": true,
   "contributors": [],
-  "version": "2.3.0",
+  "version": "3.0.0",
   "intentInputTypes": [],
   "localizedNames": {
-    "zh": "快递进度汇总 2",
-    "en": "ParcelBoard App"
+    "zh": "快递短信",
+    "en": "Parcel SMS"
   },
-  "description": "在 iPhone 主屏幕汇总多个快递的最新物流进度。",
+  "description": "从剪贴板快递短信识别运单，不需要 API 配置。",
   "remoteResource": {
     "url": "https://github.com/zhaomo08/awesome_script/tree/main/scripts/ParcelBoard%20App",
     "autoUpdateInterval": 3600
@@ -23,8 +23,8 @@
     "homepage": "https://github.com/zhaomo08/awesome_script"
   },
   "localizedDescriptions": {
-    "zh": "在 iPhone 主屏幕汇总多个快递的最新物流进度，凭据与运单仅保存在当前脚本的私有 Storage。",
-    "en": "Track multiple parcels in one iPhone widget with credentials and parcel data stored locally."
+    "zh": "从剪贴板快递短信识别运单，只在当前脚本的私有 Storage 保存识别结果，不发送网络请求。",
+    "en": "Import parcel numbers from clipboard messages and store results locally without network requests."
   },
   "iconImage": null
 }
