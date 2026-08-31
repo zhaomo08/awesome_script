@@ -17,7 +17,6 @@ import {
   loadCredentials,
   loadParcels,
   removeParcelData,
-  saveApiConsent,
   saveCredentials,
   saveParcels,
 } from "./storage"
@@ -65,7 +64,6 @@ function App() {
       setStatus("配置失败：customer 和 key 都不能为空。")
       return
     }
-    saveApiConsent(true)
     saveCredentials({ customer: nextCustomer, key: nextKey })
     setCustomer(nextCustomer)
     setKey("")
@@ -133,15 +131,9 @@ function App() {
   async function identifyFromClipboard() {
     let text = ""
     try {
-      if (typeof (Pasteboard as any)?.readString === "function") {
-        text = (await (Pasteboard as any).readString()) ?? ""
-      } else if (typeof (Pasteboard as any)?.getString === "function") {
-        text = (await (Pasteboard as any).getString()) ?? ""
-      } else if (typeof (Pasteboard as any)?.string === "string") {
-        text = (Pasteboard as any).string
-      }
+      text = (await Pasteboard.getString()) ?? ""
     } catch {
-      setStatus("读取剪贴板失败，请确保已允许访问剪贴板。")
+      setStatus("读取剪贴板失败，请在系统设置中允许 Scripting 访问剪贴板。")
       return
     }
 

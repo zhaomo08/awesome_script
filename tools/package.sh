@@ -22,8 +22,6 @@ package_script() {
   echo "Created packages/$output_name.scripting"
 }
 
-package_script "ParcelBoard" "ParcelBoard" \
-  -x "tests/*" "types/*" ".check-dist/*" "tsconfig.json" ".DS_Store"
 package_script "ParcelBoard App" "ParcelBoard-App" \
   -x "tests/*" "types/*" ".check-dist/*" "tsconfig.json" ".DS_Store"
 package_script "Codex Quota Safe" "Codex-Quota-Safe" \

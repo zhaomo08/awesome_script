@@ -20,6 +20,10 @@ declare const Crypto: {
   md5(data: ScriptingData): ScriptingData
 }
 
+declare const Pasteboard: {
+  getString(): Promise<string | null>
+}
+
 type ScriptingResponse = {
   ok: boolean
   status: number

@@ -49,7 +49,7 @@ function EmptyWidget() {
     <VStack alignment="leading" spacing={8} frame={{ maxWidth: "infinity", maxHeight: "infinity", alignment: "center" }}>
       <Image systemName="shippingbox.fill" imageScale="large" foregroundStyle="#FF8A3D" />
       <Text font="headline" foregroundStyle={primary}>暂无快递</Text>
-      <Text font="caption" foregroundStyle={secondary}>打开 ParcelBoard 添加单号</Text>
+      <Text font="caption" foregroundStyle={secondary}>打开快递进度汇总 2 添加单号</Text>
     </VStack>
   )
 }

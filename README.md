@@ -6,12 +6,10 @@
 
 | 脚本 | 用途 | 导入链接 |
 | --- | --- | --- |
-| 快递进度汇总 2（ParcelBoard App） | 汇总多件快递的承运商、状态、最新轨迹和更新时间 | [复制新版 GitHub 目录链接](https://github.com/zhaomo08/awesome_script/tree/main/scripts/ParcelBoard%20App) |
+| 快递进度汇总 2（ParcelBoard App） | 从短信剪贴板识别运单，汇总承运商、状态、最新轨迹和更新时间 | [复制 v2.3.0 导入链接](https://github.com/zhaomo08/awesome_script/tree/main/scripts/ParcelBoard%20App) |
 | Codex 额度安全版 | 查看 Codex 5 小时与每周额度，支持多账号和桌面组件 | [复制 GitHub 目录链接](https://github.com/zhaomo08/awesome_script/tree/main/scripts/Codex%20Quota%20Safe) |
 
 在 iPhone 的 Scripting 导入页面中，粘贴表格里的 GitHub 目录链接即可导入。也可以下载 [`packages`](./packages) 目录中的 `.scripting` 文件，再用 Scripting App 打开。
-
-如果手机里已有旧版“快递进度汇总”，请先结束正在后台运行的旧脚本，再导入名称带“2”的新版。新版使用独立脚本身份，避免旧版首次导入时的后台运行元数据被缓存。
 
 ## 使用前说明
 
