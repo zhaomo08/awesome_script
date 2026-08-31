@@ -10,18 +10,15 @@ import {
   useState,
 } from "scripting"
 import { formatClock } from "./domain"
-import { loadPickupCodes, savePickupCodes } from "./storage"
+import { loadPickupCodes, removePickupCode } from "./storage"
 import type { PickupCode } from "./types"
 
 function App() {
   const [codes, setCodes] = useState<PickupCode[]>(() => loadPickupCodes())
-  const [deleteArmedId, setDeleteArmedId] = useState("")
 
-  function deleteCode(item: PickupCode) {
-    const next = loadPickupCodes().filter((code) => code.id !== item.id)
-    savePickupCodes(next)
-    setCodes(next)
-    setDeleteArmedId("")
+  function collectCode(item: PickupCode) {
+    if (!removePickupCode(item.id)) return
+    setCodes(loadPickupCodes())
     Widget.reloadAll()
   }
 
@@ -50,14 +47,7 @@ function App() {
           <Section key={item.id} header={<Text>{item.carrier}</Text>}>
             <Text>{item.code}</Text>
             <Text>{formatClock(item.receivedAt)}</Text>
-            {deleteArmedId === item.id ? (
-              <>
-                <Button title={`确认删除 ${item.code}`} role="destructive" action={() => deleteCode(item)} />
-                <Button title="取消" action={() => setDeleteArmedId("")} />
-              </>
-            ) : (
-              <Button title="删除…" action={() => setDeleteArmedId(item.id)} />
-            )}
+            <Button title="✓ 已取件，删除" role="destructive" action={() => collectCode(item)} />
           </Section>
         ))}
       </List>

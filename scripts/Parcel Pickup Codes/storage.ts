@@ -3,7 +3,8 @@ import type { PickupCode } from "./types"
 const PICKUP_CODES_KEY = "parcel-pickup-codes.v1"
 
 export function loadPickupCodes(): PickupCode[] {
-  return Storage.get<PickupCode[]>(PICKUP_CODES_KEY) ?? []
+  return [...(Storage.get<PickupCode[]>(PICKUP_CODES_KEY) ?? [])]
+    .sort((a, b) => b.receivedAt - a.receivedAt)
 }
 
 export function savePickupCodes(codes: PickupCode[]) {
@@ -18,4 +19,12 @@ export function upsertPickupCode(code: string, carrier: string): PickupCode {
     : { id: `${Date.now().toString(36)}-${code}`, code, carrier, receivedAt: Date.now() }
   savePickupCodes([item, ...current.filter((entry) => entry.id !== item.id)])
   return item
+}
+
+export function removePickupCode(id: string) {
+  if (!id) return false
+  const current = loadPickupCodes()
+  const next = current.filter((item) => item.id !== id)
+  if (next.length === current.length) return false
+  return savePickupCodes(next)
 }

@@ -6,7 +6,7 @@
 
 | 脚本 | 用途 | 导入链接 |
 | --- | --- | --- |
-| 快递取件码（Parcel Pickup Codes） | 通过系统短信自动化提取取件码并显示在主屏幕组件 | [复制 v4.0.0 导入链接](https://github.com/zhaomo08/awesome_script/tree/main/scripts/Parcel%20Pickup%20Codes) |
+| 快递取件码（Parcel Pickup Codes） | 通过系统短信自动化提取取件码并显示在主屏幕组件 | [复制 v4.1.0 导入链接](https://github.com/zhaomo08/awesome_script/tree/main/scripts/Parcel%20Pickup%20Codes) |
 | Codex 额度安全版 | 查看 Codex 5 小时与每周额度，支持多账号和桌面组件 | [复制 GitHub 目录链接](https://github.com/zhaomo08/awesome_script/tree/main/scripts/Codex%20Quota%20Safe) |
 
 在 iPhone 的 Scripting 导入页面中，粘贴表格里的 GitHub 目录链接即可导入。也可以下载 [`packages`](./packages) 目录中的 `.scripting` 文件，再用 Scripting App 打开。

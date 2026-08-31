@@ -10,6 +10,14 @@ declare const Storage: {
 }
 
 declare module "scripting" {
+  export const AppIntentProtocol: { AppIntent: number }
+  export const AppIntentManager: {
+    register<T>(options: {
+      name: string
+      protocol: number
+      perform: (params: T) => Promise<void>
+    }): (params: T) => unknown
+  }
   export const Button: (props: any) => JSX.Element
   export const HStack: (props: any) => JSX.Element
   export const Image: (props: any) => JSX.Element

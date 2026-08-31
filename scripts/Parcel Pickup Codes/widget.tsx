@@ -1,4 +1,5 @@
-import { HStack, Image, Text, VStack, Widget } from "scripting"
+import { Button, HStack, Image, Text, VStack, Widget } from "scripting"
+import { RemovePickupCodeIntent } from "./app_intents"
 import { formatClock } from "./domain"
 import { loadPickupCodes } from "./storage"
 import type { PickupCode } from "./types"
@@ -15,6 +16,12 @@ function CodeRow({ item }: { item: PickupCode }) {
         <Text font="title3" fontWeight="bold" foregroundStyle={primary} lineLimit={1}>{item.code}</Text>
         <Text font="caption" foregroundStyle={secondary}>{item.carrier} · {formatClock(item.receivedAt)}</Text>
       </VStack>
+      <Button
+        title="已取件"
+        systemImage="checkmark.circle"
+        buttonStyle="plain"
+        intent={RemovePickupCodeIntent({ id: item.id })}
+      />
     </HStack>
   )
 }
