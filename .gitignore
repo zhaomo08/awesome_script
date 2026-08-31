@@ -3,3 +3,5 @@ __MACOSX/
 *.log
 node_modules/
 .check-dist/
+.agents/
+

@@ -12,7 +12,7 @@ import {
   Widget,
   useState,
 } from "scripting"
-import { CARRIERS, getCarrier, isTrackingNumberValid } from "./domain"
+import { CARRIERS, getCarrier, isTrackingNumberValid, parseSmsText } from "./domain"
 import {
   loadCredentials,
   loadParcels,
@@ -130,6 +130,38 @@ function App() {
     Widget.reloadAll()
   }
 
+  async function identifyFromClipboard() {
+    let text = ""
+    try {
+      if (typeof (Pasteboard as any)?.readString === "function") {
+        text = (await (Pasteboard as any).readString()) ?? ""
+      } else if (typeof (Pasteboard as any)?.getString === "function") {
+        text = (await (Pasteboard as any).getString()) ?? ""
+      } else if (typeof (Pasteboard as any)?.string === "string") {
+        text = (Pasteboard as any).string
+      }
+    } catch {
+      setStatus("读取剪贴板失败，请确保已允许访问剪贴板。")
+      return
+    }
+
+    if (!text || text.trim().length === 0) {
+      setStatus("剪贴板内容为空，请先复制快递短信。")
+      return
+    }
+
+    const result = parseSmsText(text)
+    if (!result) {
+      setStatus("未能从剪贴板文本中识别出快递单号。")
+      return
+    }
+
+    setCarrierCode(result.carrierCode)
+    setTrackingNumber(result.trackingNumber)
+    const carrier = getCarrier(result.carrierCode)
+    setStatus(`已识别：${carrier.name} · ${result.trackingNumber}`)
+  }
+
   return (
     <NavigationStack>
       <List navigationTitle="快递进度汇总" navigationBarTitleDisplayMode="inline">
@@ -162,7 +194,11 @@ function App() {
           <Button title={configured ? "保存 API 配置" : "同意数据说明并保存"} action={() => runAction(saveApi)} />
         </Section>
 
-        <Section header={<Text>添加快递</Text>}>
+        <Section
+          header={<Text>添加快递</Text>}
+          footer={<Text>支持复制快递短信后点击“从剪贴板识别”，自动提取快递公司和运单号。</Text>}
+        >
+          <Button title="从剪贴板识别短信" action={() => runAction(identifyFromClipboard)} />
           <Picker
             title="快递公司"
             value={carrierCode}

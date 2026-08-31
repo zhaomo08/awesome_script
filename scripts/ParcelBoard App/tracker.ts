@@ -9,6 +9,29 @@ function errorMessage(error: unknown) {
   return "网络异常，请稍后重试"
 }
 
+async function notifyStateChange(
+  parcel: Parcel,
+  oldSnapshot: ParcelSnapshot | undefined,
+  newMessage: string,
+) {
+  // 仅在有旧数据、且最新消息发生变化时推送通知
+  if (!oldSnapshot?.latestMessage || oldSnapshot.latestMessage === newMessage) return
+
+  try {
+    await Notification.schedule({
+      title: parcel.nickname,
+      body: newMessage,
+      trigger: new TimeIntervalNotificationTrigger({ timeInterval: 1, repeats: false }),
+      tapAction: {
+        type: "runScript",
+        scriptName: "ParcelBoard App",
+      },
+    })
+  } catch {
+    // 通知推送失败不影响主流程
+  }
+}
+
 async function refreshParcel(parcel: Parcel, now: number) {
   const credentials = loadCredentials()
   if (!credentials) throw new Error("尚未配置快递100 API")
@@ -38,6 +61,7 @@ async function refreshParcel(parcel: Parcel, now: number) {
       lastAttemptAt: now,
     }
     saveSnapshots(current)
+    await notifyStateChange(parcel, previous, result.latestMessage)
   } catch (error) {
     const current = loadSnapshots()
     const cached = current[parcel.id]
@@ -87,3 +111,4 @@ export async function refreshAllParcels(): Promise<RefreshSummary> {
 
   return summary
 }
+

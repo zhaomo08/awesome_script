@@ -82,3 +82,71 @@ export function truncate(value: string, maxLength: number) {
   if (value.length <= maxLength) return value
   return `${value.slice(0, Math.max(0, maxLength - 1))}…`
 }
+
+type SmsParseResult = {
+  carrierCode: string
+  trackingNumber: string
+}
+
+// 阶段一：按运单号前缀识别快递公司（无需关键词）
+const PREFIX_PATTERNS: { carrierCode: string; pattern: RegExp }[] = [
+  { carrierCode: "shunfeng", pattern: /\b(SF\d{10,17})\b/i },
+  { carrierCode: "jtexpress", pattern: /\b(JT\d{10,18})\b/i },
+  { carrierCode: "jd", pattern: /\b(JD\d{10,15})\b/i },
+  { carrierCode: "yuantong", pattern: /\b(YT\d{10,16})\b/i },
+  { carrierCode: "ems", pattern: /\b([A-Z]{2}\d{9}[A-Z]{2})\b/ },
+]
+
+// 阶段二：通过短信关键词识别快递公司，再提取纯数字运单号
+const KEYWORD_PATTERNS: {
+  carrierCode: string
+  keywords: RegExp
+  tracking: RegExp
+}[] = [
+  { carrierCode: "shunfeng", keywords: /顺丰/, tracking: /\b(\d{12})\b/ },
+  { carrierCode: "zhongtong", keywords: /中通/, tracking: /\b(\d{12,13})\b/ },
+  { carrierCode: "yuantong", keywords: /圆通/, tracking: /\b(\d{12,15})\b/ },
+  { carrierCode: "yunda", keywords: /韵达/, tracking: /\b(\d{12,13})\b/ },
+  { carrierCode: "shentong", keywords: /申通/, tracking: /\b(\d{12,13})\b/ },
+  { carrierCode: "jtexpress", keywords: /极兔/, tracking: /\b(\d{14,18})\b/ },
+  { carrierCode: "jd", keywords: /京东/, tracking: /\b(\d{12,18})\b/ },
+  { carrierCode: "debangkuaidi", keywords: /德邦/, tracking: /\b(\d{12,13})\b/ },
+  { carrierCode: "danniao", keywords: /菜鸟速递|菜鸟驿站/, tracking: /\b(\d{12,20})\b/ },
+  {
+    carrierCode: "ems",
+    keywords: /EMS|邮政快递包裹/,
+    tracking: /\b(\d{13})\b/,
+  },
+  {
+    carrierCode: "youzhengguonei",
+    keywords: /中国邮政|邮政包裹/,
+    tracking: /\b(\d{13})\b/,
+  },
+]
+
+/**
+ * 从短信文本中解析快递公司和运单号。
+ * 先按运单号前缀匹配，再按短信关键词匹配。
+ * 返回 null 表示未能识别。
+ */
+export function parseSmsText(text: string): SmsParseResult | null {
+  if (!text || text.trim().length === 0) return null
+
+  for (const { carrierCode, pattern } of PREFIX_PATTERNS) {
+    const match = text.match(pattern)
+    if (match?.[1]) {
+      return { carrierCode, trackingNumber: match[1].toUpperCase() }
+    }
+  }
+
+  for (const { carrierCode, keywords, tracking } of KEYWORD_PATTERNS) {
+    if (keywords.test(text)) {
+      const match = text.match(tracking)
+      if (match?.[1]) {
+        return { carrierCode, trackingNumber: match[1] }
+      }
+    }
+  }
+
+  return null
+}
